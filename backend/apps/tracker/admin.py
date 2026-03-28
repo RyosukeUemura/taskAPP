@@ -14,8 +14,33 @@ class SubscriptionAdmin(admin.ModelAdmin):
 
 @admin.register(RecurringTask)
 class RecurringTaskAdmin(admin.ModelAdmin):
-    list_display = ("name", "cycle_months", "next_due_date", "is_active")
-    list_filter = ("is_active",)
+    list_display = (
+        "name",
+        "interval_type",
+        "interval_value",
+        "day_of_week",
+        "next_due_date",
+        "end_date",
+        "is_active",
+    )
+    list_filter = ("interval_type", "day_of_week", "is_active")
     search_fields = ("name",)
     list_editable = ("is_active",)
     date_hierarchy = "next_due_date"
+    fieldsets = (
+        (None, {
+            "fields": ("name", "description", "is_active"),
+        }),
+        ("スケジュール設定", {
+            "fields": (
+                "interval_type",
+                "interval_value",
+                "day_of_week",
+                "start_date",
+                "end_date",
+            ),
+        }),
+        ("実行日", {
+            "fields": ("next_due_date",),
+        }),
+    )

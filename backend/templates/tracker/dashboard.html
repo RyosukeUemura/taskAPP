@@ -80,11 +80,13 @@
               {% if task.description %}
               <p class="text-xs text-gray-400 mt-0.5 truncate">{{ task.description }}</p>
               {% endif %}
+              <!-- スケジュール表示 -->
+              <p class="text-xs text-emerald-700 mt-1 font-medium">{{ task.schedule_label }}</p>
             </div>
-            <!-- 日付・周期 -->
+            <!-- 次回日付 -->
             <div class="text-right shrink-0">
               <p class="text-sm font-bold text-emerald-600">{{ task.next_due_date }}</p>
-              <p class="text-xs text-gray-400 mt-0.5">{{ task.cycle_months }}ヶ月ごと</p>
+              <p class="text-xs text-gray-400 mt-0.5">次回実行日</p>
             </div>
             <!-- 完了ボタン -->
             <form method="POST" action="{% url 'tracker:complete_task' task.id %}">
