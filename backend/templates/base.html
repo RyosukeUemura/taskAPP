@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}taskAPP{% endblock %}</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen">
+
+  <!-- Header -->
+  <header class="bg-indigo-700 text-white shadow-md">
+    <div class="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-2 text-xl font-bold tracking-wide hover:opacity-90">
+        <span class="text-2xl">📋</span> taskAPP
+      </a>
+      <nav class="flex gap-6 text-sm font-medium">
+        <a href="/" class="hover:text-indigo-200 transition-colors">ダッシュボード</a>
+        <a href="/admin/" class="hover:text-indigo-200 transition-colors">管理画面</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main -->
+  <main class="max-w-5xl mx-auto px-6 py-8">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-gray-200 mt-12 py-6 text-center text-xs text-gray-400">
+    © 2026 taskAPP
+  </footer>
+
+</body>
+</html>
