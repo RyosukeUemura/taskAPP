@@ -73,17 +73,33 @@
       <ul class="space-y-3">
         {% for task in tasks %}
         <li class="bg-white rounded-xl shadow-sm border border-gray-100 px-5 py-4 hover:shadow-md transition-shadow">
-          <div class="flex items-start justify-between">
+          <div class="flex items-center gap-4">
+            <!-- タスク情報 -->
             <div class="flex-1 min-w-0">
               <p class="font-semibold text-gray-800 truncate">{{ task.name }}</p>
               {% if task.description %}
               <p class="text-xs text-gray-400 mt-0.5 truncate">{{ task.description }}</p>
               {% endif %}
             </div>
-            <div class="ml-4 text-right shrink-0">
+            <!-- 日付・周期 -->
+            <div class="text-right shrink-0">
               <p class="text-sm font-bold text-emerald-600">{{ task.next_due_date }}</p>
               <p class="text-xs text-gray-400 mt-0.5">{{ task.cycle_months }}ヶ月ごと</p>
             </div>
+            <!-- 完了ボタン -->
+            <form method="POST" action="{% url 'tracker:complete_task' task.id %}">
+              {% csrf_token %}
+              <button
+                type="submit"
+                class="flex items-center gap-1.5 bg-emerald-500 hover:bg-emerald-600 active:bg-emerald-700 text-white text-xs font-semibold px-4 py-2 rounded-lg shadow-sm transition-colors whitespace-nowrap"
+                onclick="return confirm('「{{ task.name }}」を完了にして次回日付を更新しますか？')"
+              >
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                </svg>
+                完了
+              </button>
+            </form>
           </div>
         </li>
         {% endfor %}

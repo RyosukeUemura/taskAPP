@@ -1,5 +1,7 @@
+from dateutil.relativedelta import relativedelta
 from django.db.models import Sum
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, redirect, render
+from django.views.decorators.http import require_POST
 
 from .models import RecurringTask, Subscription
 
@@ -26,3 +28,11 @@ def dashboard(request):
         "tasks": tasks,
     }
     return render(request, "tracker/dashboard.html", context)
+
+
+@require_POST
+def complete_task(request, task_id: int):
+    task = get_object_or_404(RecurringTask, pk=task_id)
+    task.next_due_date += relativedelta(months=task.cycle_months)
+    task.save(update_fields=["next_due_date", "updated_at"])
+    return redirect("tracker:dashboard")
