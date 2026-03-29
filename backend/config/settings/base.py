@@ -11,7 +11,10 @@ import environ
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 env = environ.Env()
-environ.Env.read_env(BASE_DIR / ".env")
+# ローカル開発用 .env が存在する場合のみ読み込む（本番環境では env var を直接注入）
+_env_file = BASE_DIR / ".env"
+if _env_file.exists():
+    environ.Env.read_env(_env_file)
 
 # ---------------------------------------------------------------------------
 # Security

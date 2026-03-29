@@ -45,5 +45,4 @@ infra/*.tfstate
 infra/*.tfstate.backup
 infra/*.tfvars
 
-# Docker
-*.dockerignore
+# Docker（.dockerignore 本体はリポジトリに含める）

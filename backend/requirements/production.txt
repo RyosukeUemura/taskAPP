@@ -1,5 +1,16 @@
 -r base.txt
 
-whitenoise==6.9.0
+# 本番 Web サーバー
 gunicorn==23.0.0
+
+# PostgreSQL ドライバ
 psycopg2-binary==2.9.10
+
+# DATABASE_URL パーサー
+dj-database-url==2.3.0
+
+# 静的ファイル配信
+whitenoise==6.9.0
+
+# GCP Secret Manager
+google-cloud-secret-manager==2.24.0

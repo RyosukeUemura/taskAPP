@@ -1,0 +1,45 @@
+# 仮想環境
+.venv/
+
+# Python キャッシュ
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# 環境変数・シークレット（絶対にイメージに含めない）
+.env
+.env.*
+!.env.example
+
+# ローカル開発用 DB
+backend/db.sqlite3
+
+# テスト・カバレッジ
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Git
+.git/
+.gitignore
+
+# GitHub Actions
+.github/
+
+# インフラ定義（Terraform 等）
+infra/
+
+# ドキュメント
+*.md
+!backend/requirements/*.txt
+
+# macOS / エディタ
+.DS_Store
+.idea/
+.vscode/
+
+# Docker 自身（再帰ビルド防止）
+Dockerfile
+.dockerignore
