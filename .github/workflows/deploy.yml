@@ -1,0 +1,29 @@
+name: Deploy to Cloud Run
+
+on:
+  push:
+    branches:
+      - main # mainブランチにpushされた時だけ動く
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: コードをチェックアウト
+      uses: actions/checkout@v4
+
+    - name: GCP認証（先ほど登録した鍵を使用）
+      id: auth
+      uses: google-github-actions/auth@v2
+      with:
+        credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
+
+    - name: Cloud SDKのセットアップ
+      uses: google-github-actions/setup-gcloud@v2
+
+    - name: デプロイスクリプトの実行権限を付与
+      run: chmod +x ./deploy.sh
+
+    - name: Cloud Runへ自動デプロイ
+      run: ./deploy.sh  
