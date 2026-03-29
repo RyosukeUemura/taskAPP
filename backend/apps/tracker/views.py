@@ -1,4 +1,5 @@
 from dateutil.relativedelta import MO, TU, WE, TH, FR, SA, SU, relativedelta
+from django.contrib.auth.decorators import login_required
 from django.db.models import Sum
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_POST
@@ -17,14 +18,19 @@ _WEEKDAY_DELTA = {
 }
 
 
+@login_required
 def dashboard(request):
-    subscriptions = Subscription.objects.filter(is_active=True).order_by(
-        "next_billing_date"
-    )
-    monthly_total = subscriptions.filter(
-        billing_cycle=Subscription.BillingCycle.MONTHLY
-    ).aggregate(total=Sum("price"))["total"] or 0
+    # ログインユーザーのデータのみ取得
+    subscriptions = Subscription.objects.filter(
+        user=request.user, is_active=True
+    ).order_by("next_billing_date")
 
+    monthly_total = (
+        subscriptions.filter(
+            billing_cycle=Subscription.BillingCycle.MONTHLY
+        ).aggregate(total=Sum("price"))["total"]
+        or 0
+    )
     yearly_total = (
         subscriptions.filter(
             billing_cycle=Subscription.BillingCycle.YEARLY
@@ -32,7 +38,9 @@ def dashboard(request):
         or 0
     )
 
-    tasks = RecurringTask.objects.filter(is_active=True).order_by("next_due_date")
+    tasks = RecurringTask.objects.filter(
+        user=request.user, is_active=True
+    ).order_by("next_due_date")
 
     context = {
         "subscriptions": subscriptions,
@@ -43,9 +51,11 @@ def dashboard(request):
     return render(request, "tracker/dashboard.html", context)
 
 
+@login_required
 @require_POST
 def complete_task(request, task_id: int):
-    task = get_object_or_404(RecurringTask, pk=task_id)
+    # ログインユーザー自身のタスクのみ操作可能（他ユーザーのタスクは 404）
+    task = get_object_or_404(RecurringTask, pk=task_id, user=request.user)
 
     # 1. interval_type / interval_value に基づいて次回日付を計算
     if task.interval_type == RecurringTask.IntervalType.WEEKS:

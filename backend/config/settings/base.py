@@ -41,10 +41,8 @@ THIRD_PARTY_APPS = [
 ]
 
 LOCAL_APPS: list[str] = [
+    "apps.accounts",
     "apps.tracker",
-    # "apps.users",
-    # "apps.subscriptions",
-    # "apps.tasks",
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -122,6 +120,13 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 # Default primary key field type
 # ---------------------------------------------------------------------------
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# ---------------------------------------------------------------------------
+# Authentication
+# ---------------------------------------------------------------------------
+LOGIN_URL = "accounts:login"
+LOGIN_REDIRECT_URL = "tracker:dashboard"
+LOGOUT_REDIRECT_URL = "accounts:login"
 
 # ---------------------------------------------------------------------------
 # Django REST Framework

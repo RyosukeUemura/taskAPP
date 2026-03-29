@@ -1,5 +1,6 @@
 import datetime
 
+from django.conf import settings
 from django.db import models
 
 
@@ -9,6 +10,14 @@ class Subscription(models.Model):
         YEARLY = "yearly", "毎年"
         QUARTERLY = "quarterly", "毎四半期"
 
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        null=True,   # 既存データを壊さないための安全マイグレーション用
+        blank=True,
+        verbose_name="ユーザー",
+        related_name="subscriptions",
+    )
     name = models.CharField("サービス名", max_length=255)
     price = models.PositiveIntegerField("料金（円）")
     billing_cycle = models.CharField(
@@ -45,6 +54,14 @@ class RecurringTask(models.Model):
         SATURDAY = 5, "土曜日"
         SUNDAY = 6, "日曜日"
 
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        null=True,   # 既存データを壊さないための安全マイグレーション用
+        blank=True,
+        verbose_name="ユーザー",
+        related_name="recurring_tasks",
+    )
     name = models.CharField("タスク名", max_length=255)
     description = models.TextField("詳細メモ", blank=True)
 
