@@ -10,14 +10,14 @@ set -euo pipefail
 # -----------------------------------------------------------------------------
 
 # GCP プロジェクト ID（例: my-project-123456）
-GCP_PROJECT_ID="YOUR_GCP_PROJECT_ID"
+GCP_PROJECT_ID="taskapp-491705"
 
 # Cloud SQL インスタンスの接続名（例: my-project:asia-northeast1:my-instance）
 # GCP コンソール > Cloud SQL > インスタンス詳細 > 「接続名」に記載されている値
-CLOUD_SQL_CONNECTION_NAME="YOUR_PROJECT:asia-northeast1:YOUR_INSTANCE_NAME"
+CLOUD_SQL_CONNECTION_NAME="taskapp-491705:asia-northeast1:task-db-instance"
 
 # Cloud SQL の接続情報
-DB_PASSWORD="YOUR_DB_PASSWORD"      # Cloud SQL 作成時に設定したパスワード
+DB_PASSWORD="12345678"      # Cloud SQL 作成時に設定したパスワード
 DB_NAME="tracker_db"                # 使用するデータベース名（必要に応じて変更）
 DB_USER="postgres"                  # データベースユーザー名
 
